@@ -2,11 +2,6 @@ import React from 'react';
 import './App.css';
 
 function Question(){
-  const handleSubmit = event => {
-   event.preventDefault();
-   alert('You have submitted the form.')
- }
-
   return(
     <div className="wrapper">
       <h1>How About Them Apples</h1>
