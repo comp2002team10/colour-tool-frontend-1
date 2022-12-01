@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Figure from "./Figure";
-import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField } from '@mui/material';
+import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress } from '@mui/material';
 import { Stack } from '@mui/system';
 
 class App extends React.Component {
@@ -56,7 +56,7 @@ class App extends React.Component {
 
     getImgURL(index) {
         if (!this.state.figuresLoaded) {
-            return "https://i.imgur.com/llF5iyg.gif";
+            return <CircularProgress />;
         } else {
             return this.state.figures["in"][index]["url"];
         }
@@ -80,10 +80,10 @@ class App extends React.Component {
                                     <p>Doi: {figureInfo.doi}</p>
                                 </div>
                             </div>
-                            <div className="bar">                                
-                                <Button className="button" onClick={() => this.changeFigure(false)}>Prev</Button>
-                                {this.state.currentFigureIndex + 1}/29689
-                                <Button className="button" onClick={() => this.changeFigure(true)}>Next</Button>
+                            <div className="bar">
+                                <Button size="small" onClick={() => this.changeFigure(false)}>Prev</Button>
+                                    {this.state.currentFigureIndex + 1} / 29689     
+                                <Button size="small" onClick={() => this.changeFigure(true)}>Next</Button>
                             </div>
                         </Card>
                     </Grid>
@@ -154,7 +154,7 @@ class App extends React.Component {
                                     <Card>
                                     <div className="ques-box">
                                         <h3>Q5. How many colour values are used?</h3>
-                                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                                        <TextField id="outlined-basic" label="Enter a number" variant="outlined" />
                                     </div>
                                     </Card>
                                 </Grid>
