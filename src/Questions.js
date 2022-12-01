@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-function question(){
+function Question(){
   const handleSubmit = event => {
    event.preventDefault();
    alert('You have submitted the form.')
@@ -23,4 +23,4 @@ function question(){
   )
 }
 
-export default question;
+export default Question;
