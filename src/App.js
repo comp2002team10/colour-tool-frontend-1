@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Figure from "./Figure";
-import Question from "./Question.js";
+import Question from "./Questions.js";
 
 
 class App extends React.Component {
@@ -79,6 +79,7 @@ class App extends React.Component {
                 </div>
                 <button className="buttons" onClick={() => this.changeFigure(true)}>Next</button>
 				<div className="questions">
+					<question />					
 				</div>
             </div>
         );
