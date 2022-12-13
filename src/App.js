@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Figure from "./Figure";
-import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress } from '@mui/material';
+import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress, Checkbox } from '@mui/material';
 import { Stack } from '@mui/system';
 
 class App extends React.Component {
@@ -10,12 +10,36 @@ class App extends React.Component {
         this.state = {
             figures : [],
             currentFigureIndex: 0,
-            figuresLoaded: false
+            figuresLoaded: false,
+            annotated: true,
+            colour: "black and white",
+            use: "data-vis",
+            legend: "n-legend",
+            maptype: "uncertain",
+            number: 1,
+            difficulty: 1,
         };
         this.changeFigure = this.changeFigure.bind(this);
     }
 
     componentDidMount() {
+        fetch(`https://express-backend-vfm5.onrender.com/annotation/1`)
+            .then(res => res.json())
+            .then((res) => {
+                if (res === null) {
+                    console.log("res is null");
+                    return;
+                } else {
+                    this.setState({
+                        colour: res.colour,
+                        use: res.use,
+                        legend: res.legend,
+                        maptype: res.maptype,
+                        number: res.number,
+                        difficulty: res.difficulty,
+                    })
+                }
+            })
         fetch("https://files.catbox.moe/7dvpgw.json")
             .then(res => res.json())
             .then((res) => {
@@ -23,6 +47,35 @@ class App extends React.Component {
                     figures: res,
                     figuresLoaded: true
                 })
+                console.log("fetched")
+            })
+    }
+
+    fetchAnnotation(id) {
+        fetch(`https://express-backend-vfm5.onrender.com/annotation/${id.toString()}`)
+            .then(res => res.json())
+            .then((res) => {
+                if (res === null) {
+                    this.setState({
+                        annotated: false,
+                        colour: "",
+                        use: "",
+                        legend: "",
+                        maptype: "",
+                        number: 0,
+                        difficulty: 0,
+                    })
+                } else {
+                    this.setState({
+                        annotated: true,
+                        colour: res.colour,
+                        use: res.use,
+                        legend: res.legend,
+                        maptype: res.maptype,
+                        number: res.number,
+                        difficulty: res.difficulty,
+                    })
+                }
             })
     }
 
@@ -30,16 +83,50 @@ class App extends React.Component {
         if (increment === true) {
             if (this.state.currentFigureIndex === 29688) {
                 this.setState({currentFigureIndex: 0});
+                this.fetchAnnotation(1);
             } else {
                 this.setState({currentFigureIndex: this.state.currentFigureIndex + 1});
+                this.fetchAnnotation(this.state.currentFigureIndex + 2);
             }
         } else {
             if (this.state.currentFigureIndex === 0) {
                 this.setState({currentFigureIndex: 29688});
+                this.fetchAnnotation(29689);
             } else {
                 this.setState({currentFigureIndex: this.state.currentFigureIndex - 1});
+                this.fetchAnnotation(this.state.currentFigureIndex);
             }
         }
+
+        const newAnnotation = {
+            id: this.state.currentFigureIndex + 1,
+            colour: this.state.colour,
+            use: this.state.use,
+            legend: this.state.legend,
+            maptype: this.state.maptype,
+            number: this.state.number,
+            difficulty: this.state.difficulty,
+        }
+        
+        if (this.state.annotated) {
+            fetch(`https://express-backend-vfm5.onrender.com/update/${newAnnotation.id.toString()}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newAnnotation),
+            })
+        } else {
+            fetch(`https://express-backend-vfm5.onrender.com/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newAnnotation),
+            })
+        }
+
+        console.log("New annotation added.")
     }
 
     getFigureInfo(index) {
@@ -56,7 +143,7 @@ class App extends React.Component {
 
     getImgURL(index) {
         if (!this.state.figuresLoaded) {
-            return <CircularProgress />;
+            return;
         } else {
             return this.state.figures["in"][index]["url"];
         }
@@ -72,7 +159,11 @@ class App extends React.Component {
                         <Card>
                             <div className="card">
                                 <div className="figure">
-                                    <Figure imgUrl={this.getImgURL(this.state.currentFigureIndex)}/>
+                                    {this.state.figuresLoaded === true ? (
+                                        <Figure imgUrl={this.getImgURL(this.state.currentFigureIndex)}/>
+                                    ) : (
+                                        <CircularProgress />
+                                    )}
                                 </div>
                                 <div className="metadata">
                                     <p>Title: {figureInfo.name}</p>
@@ -97,6 +188,9 @@ class App extends React.Component {
                                             <RadioGroup
                                                 aria-labelledby="colour-type"
                                                 name="row-radio-buttons-group"
+                                                defaultValue={this.state.colour}
+                                                value={this.state.colour}
+                                                onChange={(e) => this.setState({colour: e.target.value})}
                                             >
                                                 <FormControlLabel value="black and white" control={<Radio />} label="Black and white" />
                                                 <FormControlLabel value="grey" control={<Radio />} label="Greyscale" />
@@ -112,6 +206,9 @@ class App extends React.Component {
                                         <RadioGroup
                                                 aria-labelledby="colour-use"
                                                 name="row-radio-buttons-group"
+                                                defaultValue={this.state.use}
+                                                value={this.state.use}
+                                                onChange={(e) => this.setState({use: e.target.value})}
                                             >
                                                 <FormControlLabel value="aesthetics" control={<Radio />} label="Aesthetics" />
                                                 <FormControlLabel value="data-vis" control={<Radio />} label="Data Visualisation" />
@@ -127,6 +224,8 @@ class App extends React.Component {
                                         <RadioGroup
                                                 aria-labelledby="legend"
                                                 name="row-radio-buttons-group"
+                                                value={this.state.legend}
+                                                onChange={(e) => this.setState({legend: e.target.value})}
                                             >
                                                 <FormControlLabel value="legend" control={<Radio />} label="Yes" />
                                                 <FormControlLabel value="n-legend" control={<Radio />} label="No" />
@@ -142,10 +241,12 @@ class App extends React.Component {
                                         <RadioGroup
                                                 aria-labelledby="continuous"
                                                 name="row-radio-buttons-group"
+                                                value={this.state.maptype}
+                                                onChange={(e) => this.setState({maptype: e.target.value})}
                                             >
-                                                <FormControlLabel value="continuous" control={<Radio />} label="Continuous" />
-                                                <FormControlLabel value="categorical" control={<Radio />} label="Categorical" />
-                                                <FormControlLabel value="uncertain" control={<Radio />} label="Not sure" />
+                                                <FormControlLabel value="continuous" control={<Checkbox />} label="Continuous" />
+                                                <FormControlLabel value="categorical" control={<Checkbox />} label="Categorical" />
+                                                <FormControlLabel value="uncertain" control={<Checkbox />} label="Not sure" />
                                         </RadioGroup>
                                     </div>
                                     </Card>
@@ -154,7 +255,8 @@ class App extends React.Component {
                                     <Card>
                                     <div className="ques-box">
                                         <h3>Q5. How many colour values are used?</h3>
-                                        <TextField id="outlined-basic" label="Enter a number" variant="outlined" />
+                                        <TextField value={this.state.number} onChange={(e) => this.setState({number: e.target.value})}
+                                             id="outlined-basic" variant="outlined" />
                                     </div>
                                     </Card>
                                 </Grid>
@@ -166,6 +268,8 @@ class App extends React.Component {
                                                 row
                                                 aria-labelledby="difficulty"
                                                 name="row-radio-buttons-group"
+                                                value={this.state.difficulty}
+                                                onChange={(e) => this.setState({difficulty: e.target.value})}
                                             >
                                                 <FormControlLabel value="1" control={<Radio />} label="1" />
                                                 <FormControlLabel value="2" control={<Radio />} label="2" />
