@@ -1,6 +1,6 @@
 function Figure({imgUrl}) {
 	return (
-		<img src={imgUrl} alt={"Figure"}/>
+		<img src={imgUrl} alt={"Figure"} data-zoom={imgUrl}/>
 	);
 }
 

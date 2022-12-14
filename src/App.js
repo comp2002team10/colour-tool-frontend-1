@@ -160,7 +160,7 @@ class App extends React.Component {
                             <div className="card">
                                 <div className="figure">
                                     {this.state.figuresLoaded === true ? (
-                                        <Figure imgUrl={this.getImgURL(this.state.currentFigureIndex)}/>
+                                        <Figure imgUrl={this.getImgURL(this.state.currentFigureIndex)} />
                                     ) : (
                                         <CircularProgress />
                                     )}
@@ -244,9 +244,9 @@ class App extends React.Component {
                                                 value={this.state.maptype}
                                                 onChange={(e) => this.setState({maptype: e.target.value})}
                                             >
-                                                <FormControlLabel value="continuous" control={<Checkbox />} label="Continuous" />
-                                                <FormControlLabel value="categorical" control={<Checkbox />} label="Categorical" />
-                                                <FormControlLabel value="uncertain" control={<Checkbox />} label="Not sure" />
+                                                <FormControlLabel value="continuous" control={<Radio />} label="Continuous" />
+                                                <FormControlLabel value="categorical" control={<Radio />} label="Categorical" />
+                                                <FormControlLabel value="uncertain" control={<Radio />} label="Not sure" />
                                         </RadioGroup>
                                     </div>
                                     </Card>
