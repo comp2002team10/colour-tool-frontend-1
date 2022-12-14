@@ -1,6 +1,8 @@
+import Magnifier from "react-magnifier"
+
 function Figure({imgUrl}) {
 	return (
-		<img src={imgUrl} alt={"Figure"} data-zoom={imgUrl}/>
+		<Magnifier src={imgUrl} alt={"Figure"}/>
 	);
 }
 
