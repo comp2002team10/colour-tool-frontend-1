@@ -1,6 +1,6 @@
 import React from 'react';
 import './annotation.css';
-import Figure from "./components/figure";
+import Figure from './components/figure';
 import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress } from '@mui/material';
 import { Stack } from '@mui/system';
 
@@ -40,7 +40,7 @@ class Annotation extends React.Component {
                     })
                 }
             })
-        fetch("https://files.catbox.moe/b2yosr.json") // all images: https://files.catbox.moe/7dvpgw.json
+        fetch("https://files.catbox.moe/oggcjf.json") // all images: https://files.catbox.moe/7dvpgw.json
             .then(res => res.json())
             .then((res) => {
                 this.setState({
