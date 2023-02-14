@@ -6,7 +6,6 @@ import Login from './pages/login';
 
 class App extends React.Component {
     render() {
-        document.title = "Figure Viewer";
         return (
             <div>
                 <Routes>

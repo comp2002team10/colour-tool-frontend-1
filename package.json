@@ -16,6 +16,7 @@
     "react-img-zoom": "^0.1.0",
     "react-inner-image-zoom": "^3.0.2",
     "react-magnifier": "^3.0.4",
+    "react-navigation": "^4.4.4",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-zmage": "^0.8.5-beta.37",
