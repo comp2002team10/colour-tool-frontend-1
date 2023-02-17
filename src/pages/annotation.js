@@ -12,37 +12,17 @@ class Annotation extends React.Component {
             figures : [],
             currentFigureIndex: 0,
             figuresLoaded: false,
-            annotated: true,
+            annotated: false,
             user: "",
-            colour: "black and white",
-            use: "data-vis",
-            legend: "n-legend",
-            maptype: "uncertain",
-            number: 1,
-            difficulty: 1,
+            colour: "",
+            use: "",
+            legend: "",
+            maptype: "",
+            number: "",
+            difficulty: "",
         };
         this.changeFigure = this.changeFigure.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
-    }
-
-    componentWillMount() {
-        fetch(`https://express-backend-vfm5.onrender.com/annotation/1`)
-        .then(res => res.json())
-        .then((res) => {
-            if (res === null) {
-                console.log("res is null");
-                return;
-            } else {
-                this.setState({
-                    colour: res.colour,
-                    use: res.use,
-                    legend: res.legend,
-                    maptype: res.maptype,
-                    number: res.number,
-                    difficulty: res.difficulty,
-                })
-            }
-        })
     }
 
     componentDidMount() {
@@ -53,12 +33,11 @@ class Annotation extends React.Component {
                     figures: res,
                     figuresLoaded: true
                 })
-                console.log("fetched")
             })
     }
 
-    fetchAnnotation(id) {
-        fetch(`https://express-backend-vfm5.onrender.com/annotation/${id.toString()}`)
+    fetchAnnotation(id, user) {
+        fetch(`https://express-backend-vfm5.onrender.com/annotation/${id.toString()}/${user.toString()}`)
             .then(res => res.json())
             .then((res) => {
                 if (res === null) {
@@ -89,23 +68,25 @@ class Annotation extends React.Component {
         if (increment === true) {
             if (this.state.currentFigureIndex === 49) {
                 this.setState({currentFigureIndex: 0});
-                this.fetchAnnotation(1);
+                this.fetchAnnotation(1, this.state.user);
             } else {
                 this.setState({currentFigureIndex: this.state.currentFigureIndex + 1});
-                this.fetchAnnotation(this.state.currentFigureIndex + 2);
+                this.fetchAnnotation(this.state.currentFigureIndex + 2, this.state.user);
             }
         } else {
             if (this.state.currentFigureIndex === 0) {
                 this.setState({currentFigureIndex: 49});
-                this.fetchAnnotation(50);
+                this.fetchAnnotation(50, this.state.user);
             } else {
                 this.setState({currentFigureIndex: this.state.currentFigureIndex - 1});
-                this.fetchAnnotation(this.state.currentFigureIndex);
+                this.fetchAnnotation(this.state.currentFigureIndex, this.state.user);
             }
         }
 
         const newAnnotation = {
             id: this.state.currentFigureIndex + 1,
+            user: this.state.user,
+            imageId: this.state.figures["in"][this.state.currentFigureIndex]["imageID"],
             colour: this.state.colour,
             use: this.state.use,
             legend: this.state.legend,
@@ -115,7 +96,7 @@ class Annotation extends React.Component {
         }
         
         if (this.state.annotated) {
-            fetch(`https://express-backend-vfm5.onrender.com/update/${newAnnotation.id.toString()}`, {
+            fetch(`https://express-backend-vfm5.onrender.com/update/${newAnnotation.id.toString()}/${newAnnotation.user.toString()}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -123,7 +104,7 @@ class Annotation extends React.Component {
                 body: JSON.stringify(newAnnotation),
             })
         } else {
-            fetch(`https://express-backend-vfm5.onrender.com/add`, {
+            fetch(`https://express-backend-vfm5.onrender.com/add/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -156,9 +137,25 @@ class Annotation extends React.Component {
     }
 
     handleLogin(username) {
-        console.log("handleLogin");
         console.log(username);
         this.setState({user: username});
+        fetch(`https://express-backend-vfm5.onrender.com/annotation/1/${username.toString()}`)
+        .then(res => res.json())
+        .then((res) => {
+            if (res === null) {
+                console.log("res is null");
+                return;
+            } else {
+                this.setState({
+                    colour: res.colour,
+                    use: res.use,
+                    legend: res.legend,
+                    maptype: res.maptype,
+                    number: res.number,
+                    difficulty: res.difficulty,
+                })
+            }
+        })
     }
 
     render() {

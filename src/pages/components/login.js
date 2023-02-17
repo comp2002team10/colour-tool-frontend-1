@@ -3,15 +3,26 @@ import './login.css';
 import { Card, Button, MenuItem, InputLabel, Select, FormControl } from '@mui/material';
 
 function Login({handleLogin}) {
+    // const usernames = [
+    //     "Bob Laramee",
+    //     "Hyanggi Lee",
+    //     "Jamie Vickers",
+    //     "Luke Whitfield",
+    //     "Nita Krasniqi",
+    //     "Wenfei Qi",
+    //     "Yizhan Huang",
+    //     "Zhening Zhu",
+    // ];
+
     const usernames = [
-        "Bob Laramee",
-        "Hyanggi Lee",
-        "Jamie Vickers",
-        "Luke Whitfield",
-        "Nita Krasniqi",
-        "Wenfei Qi",
-        "Yizhan Huang",
-        "Zhening Zhu",
+        "RL",
+        "HL",
+        "JV",
+        "LW",
+        "NK",
+        "WQ",
+        "YH",
+        "ZZ",
     ];
 
     const [user, setUser] = useState();
@@ -37,7 +48,7 @@ function Login({handleLogin}) {
                                 ))}
                             </Select>
                             <div className="loginbutton">
-                                {user === "" ? (
+                                {user === undefined || "" ? (
                                     <Button variant="contained" disabled>Log in</Button>
                                 ) : (
                                     // <Link style={{ textDecoration:'none'}} to="/">
