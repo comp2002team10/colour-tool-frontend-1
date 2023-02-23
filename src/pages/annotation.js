@@ -26,7 +26,7 @@ class Annotation extends React.Component {
     }
 
     componentDidMount() {
-        fetch("https://files.catbox.moe/oggcjf.json") // all images: https://files.catbox.moe/7dvpgw.json
+        fetch("https://files.catbox.moe/cnlqci.json") // all images: https://files.catbox.moe/7dvpgw.json // 50: https://files.catbox.moe/oggcjf.json
             .then(res => res.json())
             .then((res) => {
                 this.setState({
@@ -66,7 +66,7 @@ class Annotation extends React.Component {
 
     changeFigure(increment) {
         if (increment === true) {
-            if (this.state.currentFigureIndex === 49) {
+            if (this.state.currentFigureIndex === 99) {
                 this.setState({currentFigureIndex: 0});
                 this.fetchAnnotation(1, this.state.user);
             } else {
@@ -75,8 +75,8 @@ class Annotation extends React.Component {
             }
         } else {
             if (this.state.currentFigureIndex === 0) {
-                this.setState({currentFigureIndex: 49});
-                this.fetchAnnotation(50, this.state.user);
+                this.setState({currentFigureIndex: 99});
+                this.fetchAnnotation(100, this.state.user);
             } else {
                 this.setState({currentFigureIndex: this.state.currentFigureIndex - 1});
                 this.fetchAnnotation(this.state.currentFigureIndex, this.state.user);
@@ -183,7 +183,7 @@ class Annotation extends React.Component {
                                 </div>
                                 <div className="bar">
                                     <Button size="small" onClick={() => this.changeFigure(false)}>Prev</Button>
-                                        {this.state.currentFigureIndex + 1} / 50     
+                                        {this.state.currentFigureIndex + 1} / 100   
                                     <Button size="small" onClick={() => this.changeFigure(true)}>Next</Button>
                                 </div>
                             </Card>
@@ -214,6 +214,7 @@ class Annotation extends React.Component {
                                         <div className="ques-box">
                                             <h3>Q2. Is colour used for aesthetics or data visualisation?</h3>
                                             <RadioGroup
+                                                    row
                                                     aria-labelledby="colour-use"
                                                     name="row-radio-buttons-group"
                                                     defaultValue={this.state.use}
@@ -223,6 +224,7 @@ class Annotation extends React.Component {
                                                     <FormControlLabel value="aesthetics" control={<Radio />} label="Aesthetics" />
                                                     <FormControlLabel value="data-vis" control={<Radio />} label="Data Visualisation" />
                                                     <FormControlLabel value="uncertain" control={<Radio />} label="Not sure" />
+                                                    <FormControlLabel value="NA" control={<Radio />} label="Not applicable" />
                                             </RadioGroup>
                                         </div>
                                         </Card>
@@ -249,6 +251,7 @@ class Annotation extends React.Component {
                                         <div className="ques-box">
                                             <h3>Q4. Is the colour mapping continuous or categorical?</h3>
                                             <RadioGroup
+                                                    row
                                                     aria-labelledby="continuous"
                                                     name="row-radio-buttons-group"
                                                     value={this.state.maptype}
@@ -256,6 +259,7 @@ class Annotation extends React.Component {
                                                 >
                                                     <FormControlLabel value="continuous" control={<Radio />} label="Continuous" />
                                                     <FormControlLabel value="categorical" control={<Radio />} label="Categorical" />
+                                                    <FormControlLabel value="both" control={<Radio />} label="Both" />
                                                     <FormControlLabel value="uncertain" control={<Radio />} label="Not sure" />
                                             </RadioGroup>
                                         </div>
@@ -267,6 +271,7 @@ class Annotation extends React.Component {
                                             <h3>Q5. How many colour values are used?</h3>
                                             <TextField value={this.state.number} onChange={(e) => this.setState({number: e.target.value})}
                                                 id="outlined-basic" variant="outlined" />
+                                            <FormControlLabel value="NA" control={<Radio />} label="Not applicable/many" />
                                         </div>
                                         </Card>
                                     </Grid>
@@ -286,6 +291,7 @@ class Annotation extends React.Component {
                                                     <FormControlLabel value="3" control={<Radio />} label="3" />
                                                     <FormControlLabel value="4" control={<Radio />} label="4" />
                                                     <FormControlLabel value="5" control={<Radio />} label="5" />
+                                                    (1=very easy, 5=very hard)
                                             </RadioGroup>
                                         </div>
                                         </Card>
