@@ -279,9 +279,18 @@ class Annotation extends React.Component {
                                         <Card>
                                         <div className="ques-box">
                                             <h3>Q5. How many colour values are used?</h3>
-                                            <TextField value={this.state.number} onChange={(e) => this.setState({number: e.target.value})}
-                                                id="outlined-basic" variant="outlined" />
-                                            <FormControlLabel value="NA" control={<Radio />} label="Not applicable/many" />
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="number"
+                                            name="row-radio-buttons-group"
+                                            value={this.state.number}
+                                            >
+                                            
+                                                    <TextField value={this.state.number} onChange={(e) => this.setState({number: e.target.value})}
+                                                        id="outlined-basic" variant="outlined" />
+                                                
+                                                <FormControlLabel value="NA" control={<Radio />} label="Not applicable/many" onChange={(e) => this.setState({number: "NA"})} />
+                                            </RadioGroup>
                                         </div>
                                         </Card>
                                     </Grid>
