@@ -84,7 +84,9 @@ class Annotation extends React.Component {
                 this.fetchAnnotation(this.state.currentFigureIndex, this.state.user);
             }
         }
+    }
 
+    submitAnnotation() { 
         const newAnnotation = {
             id: this.state.currentFigureIndex + 1,
             user: this.state.user,
@@ -195,6 +197,7 @@ class Annotation extends React.Component {
                                     <Button size="small" onClick={() => this.changeFigure(false)}>Prev</Button>
                                         {this.state.currentFigureIndex + 1} / 100   
                                     <Button size="small" onClick={() => this.changeFigure(true)}>Next</Button>
+                                    <Button variant="contained" onClick={() => this.submitAnnotation()}>SUBMIT</Button>
                                 </div>
                             </Card>
                         </Grid>
