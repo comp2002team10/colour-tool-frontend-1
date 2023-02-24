@@ -2,7 +2,7 @@ import React from 'react';
 import './annotation.css';
 import Figure from './components/figure';
 import Login from './components/login';
-import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress } from '@mui/material';
+import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress, Input } from '@mui/material';
 import { Stack } from '@mui/system';
 import MenuBar from './components/menubar';
 
@@ -83,6 +83,13 @@ class Annotation extends React.Component {
                 this.setState({currentFigureIndex: this.state.currentFigureIndex - 1});
                 this.fetchAnnotation(this.state.currentFigureIndex, this.state.user);
             }
+        }
+    }
+
+    jumpTo(index) {
+        if (index >= 1 && index <= 100) {
+            this.setState({currentFigureIndex: index - 1});
+            this.fetchAnnotation(index, this.state.user);
         }
     }
 
@@ -195,7 +202,9 @@ class Annotation extends React.Component {
                                 </div>
                                 <div className="bar">
                                     <Button size="small" onClick={() => this.changeFigure(false)}>Prev</Button>
-                                        {this.state.currentFigureIndex + 1} / 100   
+                                        <Input size="small" value={this.state.currentFigureIndex + 1} 
+                                            onChange={(e) => this.jumpTo(e.target.value)} />
+                                         / 100   
                                     <Button size="small" onClick={() => this.changeFigure(true)}>Next</Button>
                                     <Button variant="contained" onClick={() => this.submitAnnotation()}>SUBMIT</Button>
                                 </div>
@@ -254,7 +263,6 @@ class Annotation extends React.Component {
                                                 >
                                                     <FormControlLabel value="legend" control={<Radio />} label="Yes" />
                                                     <FormControlLabel value="n-legend" control={<Radio />} label="No" />
-                                                    <FormControlLabel value="uncertain" control={<Radio />} label="Not sure" />
                                             </RadioGroup>
                                         </div>
                                         </Card>
