@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './login.css';
 import { Card, Button, MenuItem, InputLabel, Select, FormControl } from '@mui/material';
 
-function Login({handleLogin}) {
+export default function Login({handleLogin}) {
     // const usernames = [
     //     "Bob Laramee",
     //     "Hyanggi Lee",
@@ -62,5 +62,3 @@ function Login({handleLogin}) {
             </div>
         )
 }
-
-export default Login;

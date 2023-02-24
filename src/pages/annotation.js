@@ -4,6 +4,7 @@ import Figure from './components/figure';
 import Login from './components/login';
 import { Grid, Card, Button, RadioGroup, FormControlLabel, Radio, TextField, CircularProgress } from '@mui/material';
 import { Stack } from '@mui/system';
+import MenuBar from './components/menubar';
 
 class Annotation extends React.Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class Annotation extends React.Component {
         };
         this.changeFigure = this.changeFigure.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
     }
 
     componentDidMount() {
@@ -158,6 +160,11 @@ class Annotation extends React.Component {
         })
     }
 
+    handleLogOut() {
+        console.log("log out");
+        this.setState({user: ""});
+    }
+
     render() {
         if (this.state.user !== "") {
             document.title = "Figure Viewer";
@@ -165,6 +172,9 @@ class Annotation extends React.Component {
             return (
                 <div className="App">
                     <Grid container spacing={2}>
+                    <Grid sx={{ flexGrow: 1 }} item xs={12 }>
+                        <MenuBar handleLogOut={this.handleLogOut}/>
+                    </Grid>
                         <Grid item xs={6}>
                             <Card>
                                 <div className="card">
@@ -291,7 +301,7 @@ class Annotation extends React.Component {
                                                     <FormControlLabel value="3" control={<Radio />} label="3" />
                                                     <FormControlLabel value="4" control={<Radio />} label="4" />
                                                     <FormControlLabel value="5" control={<Radio />} label="5" />
-                                                    (1=very easy, 5=very hard)
+                                                    <div className="hint">(1=very easy, 5=very hard)</div>
                                             </RadioGroup>
                                         </div>
                                         </Card>
@@ -304,7 +314,12 @@ class Annotation extends React.Component {
             );
         } else {
             document.title = "Login";
-            return <Login handleLogin={this.handleLogin} />;
+            return(
+                <div>
+                    {/* <MenuBar /> */}
+                    <Login handleLogin={this.handleLogin} />
+                </div>
+            );
         }        
     }
 }
