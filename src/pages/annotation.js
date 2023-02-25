@@ -263,6 +263,7 @@ class Annotation extends React.Component {
                                                 >
                                                     <FormControlLabel value="legend" control={<Radio />} label="Yes" />
                                                     <FormControlLabel value="n-legend" control={<Radio />} label="No" />
+                                                    <FormControlLabel value="uncertain" control={<Radio />} label="Not sure" />
                                             </RadioGroup>
                                         </div>
                                         </Card>
