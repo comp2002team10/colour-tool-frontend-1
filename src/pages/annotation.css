@@ -10,16 +10,16 @@
   overflow: hidden;
 }
 
-.css-1tcs2i1-MuiInputBase-root-MuiInput-root {
-  width: 30px;
-  height: 15px;
-}
-
 img {
   max-height: 520px;
   max-width: 620px;
   width: auto;
   object-fit: cover;
+}
+
+.indexInput {
+  width: 30px;
+  margin: 5px;
 }
 
 .button {
