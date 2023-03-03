@@ -177,7 +177,7 @@ class Annotation extends React.Component {
 
     render() {
         if (this.state.user !== "") {
-            document.title = "Figure Viewer";
+            document.title = "Annotation tool";
             let figureInfo = this.getFigureInfo(this.state.currentFigureIndex);
             return (
                 <div className="App">
