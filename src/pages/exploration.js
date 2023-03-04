@@ -26,3 +26,5 @@ class Exploration extends React.Component {
     );
   }
 }
+
+export default Exploration; 
