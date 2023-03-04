@@ -13,6 +13,7 @@ class App extends React.Component {
                     <Route exact path = "/" element = {<Cover />} />
                     <Route exact path = "/annotation" element = {<Annotation />} />
                     <Route exact path = "/validation" element = {<Validation />} />
+                    <Route exact path = "/exploration" element = {<Exploration />} />
                 </Routes>
             </div>
         )
